@@ -121,6 +121,7 @@
     j.contacts.forEach(c => {
       const key = String(c.Key); const f = fmt(c.Phone);
       document.querySelectorAll('.js-phone[data-key="' + key + '"]').forEach(a => { if (f) { a.textContent = f; a.href = 'tel:+91' + f.replace(/\D/g, '').slice(2); } });
+      document.querySelectorAll('.js-mail[data-key="' + key + '"]').forEach(a => { if (c.Email) { a.textContent = c.Email; a.href = 'mailto:' + c.Email; } });
       const card = document.querySelector('.contact-card[data-key="' + key + '"]'); if (!card) return;
       const nm = card.querySelector('.c-name'), rl = card.querySelector('.c-role'), ml = card.querySelector('.c-mail a');
       if (nm && c['Display Name']) nm.textContent = c['Display Name'];
