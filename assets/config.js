@@ -1,6 +1,5 @@
-/* Paste the Google Apps Script web-app URLs here when they are ready.
-   Until then the forms show "not connected yet" and send nothing. */
+/* Google Apps Script web-app URL (same backend for both forms). */
 window.EAGLE_CONFIG = {
-  QUOTE_URL: '',
-  CAREERS_URL: ''
+  QUOTE_URL: 'https://script.google.com/macros/s/AKfycbxY5okVbdgHQlzFBkTgQdCl6BEhREy4qCQ7ov7U1T6jgubM_eNeYkmMfUoxCYHQqfYOHQ/exec',
+  CAREERS_URL: 'https://script.google.com/macros/s/AKfycbxY5okVbdgHQlzFBkTgQdCl6BEhREy4qCQ7ov7U1T6jgubM_eNeYkmMfUoxCYHQqfYOHQ/exec'
 };
