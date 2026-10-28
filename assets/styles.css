@@ -623,3 +623,5 @@ h1 em,h2 em{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-
 .contact-card .phone,.contact-card .phone a{font-family:inherit;font-size:16px;font-weight:600;color:var(--ink,#0d1b2a);letter-spacing:0;font-variant-numeric:tabular-nums;text-decoration:none;word-spacing:0}
 .contact-card .phone a:hover{text-decoration:underline}
 .js-phone{font-variant-numeric:tabular-nums;letter-spacing:0}
+.post .back{display:table;margin-bottom:26px}
+.post>.bc-meta{display:block;margin-bottom:4px}
