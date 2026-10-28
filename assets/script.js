@@ -110,3 +110,22 @@
   const sel = document.getElementById('qd'); if (!sel) return;
   try { const d = new URLSearchParams(location.search).get('d'); if (d && [...sel.options].some(o => o.value === d)) sel.value = d; } catch (e) {}
 })();
+
+/* contact numbers: baked into the page, refreshed from the Google Sheet (Contacts tab) when reachable */
+(() => {
+  const base = window.EAGLE_CONFIG && window.EAGLE_CONFIG.QUOTE_URL; if (!base) return;
+  if (!document.querySelector('.js-phone')) return;
+  const fmt = n => { n = String(n).replace(/\D/g, '').slice(-10); return n.length === 10 ? '+91 ' + n.slice(0, 5) + ' ' + n.slice(5) : ''; };
+  fetch(base + '?action=contacts').then(r => r.json()).then(j => {
+    if (!j || !j.ok) return;
+    j.contacts.forEach(c => {
+      const key = String(c.Key); const f = fmt(c.Phone);
+      document.querySelectorAll('.js-phone[data-key="' + key + '"]').forEach(a => { if (f) { a.textContent = f; a.href = 'tel:+91' + f.replace(/\D/g, '').slice(2); } });
+      const card = document.querySelector('.contact-card[data-key="' + key + '"]'); if (!card) return;
+      const nm = card.querySelector('.c-name'), rl = card.querySelector('.c-role'), ml = card.querySelector('.c-mail a');
+      if (nm && c['Display Name']) nm.textContent = c['Display Name'];
+      if (rl && c.Role) rl.textContent = String(c.Role).charAt(0).toLowerCase() + String(c.Role).slice(1);
+      if (ml && c.Email) { ml.textContent = c.Email; ml.href = 'mailto:' + c.Email; }
+    });
+  }).catch(() => {});
+})();
