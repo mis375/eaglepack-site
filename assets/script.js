@@ -129,3 +129,79 @@
     });
   }).catch(() => {});
 })();
+
+/* blog: lists Published posts from the Google Sheet (Blog tab); a post opens at blog/?p=slug */
+(() => {
+  const root = document.getElementById('blogRoot'); if (!root) return;
+  const base = window.EAGLE_CONFIG && window.EAGLE_CONFIG.QUOTE_URL;
+  const el = (tag, cls, txt) => { const n = document.createElement(tag); if (cls) n.className = cls; if (txt != null) n.textContent = txt; return n; };
+  const msg = t => { root.replaceChildren(el('p', 'blog-msg', t)); };
+  const slugify = s => String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+  const keyOf = p => String(p.Slug || '').trim() || slugify(p.Title);
+  const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const fmtDate = d => { const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(d || '')); return m ? (+m[3]) + ' ' + MON[+m[2] - 1] + ' ' + m[1] : String(d || ''); };
+  const safeUrl = u => { u = String(u || '').trim(); return /^https:\/\//i.test(u) ? u : ''; };
+  const meta = p => [p.Category, fmtDate(p.Date)].filter(Boolean).join('  /  ');
+  const driveFix = u => { const m = /drive\.google\.com\/file\/d\/([^/]+)/.exec(u) || /drive\.google\.com\/open\?id=([^&]+)/.exec(u); return m ? 'https://drive.google.com/thumbnail?id=' + m[1] + '&sz=w1400' : u; };
+
+  function inline(text, parent) {            // [label](https://...) links only
+    const re = /\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g; let last = 0, m;
+    while ((m = re.exec(text))) {
+      if (m.index > last) parent.appendChild(document.createTextNode(text.slice(last, m.index)));
+      const a = el('a', '', m[1]); a.href = m[2]; a.target = '_blank'; a.rel = 'noopener'; parent.appendChild(a);
+      last = re.lastIndex;
+    }
+    if (last < text.length) parent.appendChild(document.createTextNode(text.slice(last)));
+  }
+  function renderBody(content) {
+    const box = el('div', 'post-body'); let ul = null, para = [];
+    const flush = () => { if (para.length) { const p = el('p'); inline(para.join(' '), p); box.appendChild(p); para = []; } };
+    String(content || '').split(/\r?\n/).forEach(raw => {
+      const line = raw.trim();
+      if (!line) { flush(); ul = null; return; }
+      if (/^#{1,3}\s+/.test(line)) { flush(); ul = null; box.appendChild(el('h3', '', line.replace(/^#{1,3}\s+/, ''))); return; }
+      if (/^[-*]\s+/.test(line)) { flush(); if (!ul) { ul = el('ul'); box.appendChild(ul); } const li = el('li'); inline(line.replace(/^[-*]\s+/, ''), li); ul.appendChild(li); return; }
+      ul = null; para.push(line);
+    });
+    flush(); return box;
+  }
+  function setMeta(title, desc) {
+    document.title = title;
+    const m = document.querySelector('meta[name="description"]'); if (m && desc) m.setAttribute('content', desc);
+  }
+  function list(posts) {
+    if (!posts.length) { msg('New articles are coming soon.'); return; }
+    const grid = el('div', 'blog-grid');
+    posts.forEach(p => {
+      const a = el('a', 'blog-card'); a.href = '?p=' + encodeURIComponent(keyOf(p));
+      const img = safeUrl(driveFix(safeUrl(p['Cover Image URL'])));
+      if (img) { const w = el('div', 'bc-img'), i = document.createElement('img'); i.src = img; i.alt = ''; i.loading = 'lazy'; w.appendChild(i); a.appendChild(w); }
+      const b = el('div', 'bc-body'); b.appendChild(el('span', 'bc-meta', meta(p))); b.appendChild(el('h3', '', p.Title));
+      if (p.Summary) b.appendChild(el('p', '', p.Summary));
+      a.appendChild(b); grid.appendChild(a);
+    });
+    root.replaceChildren(grid);
+  }
+  function post(p) {
+    const art = el('article', 'post'); const back = el('a', 'back', 'All articles'); back.href = './'; art.appendChild(back);
+    art.appendChild(el('span', 'bc-meta', [p.Category, fmtDate(p.Date), p.Author].filter(Boolean).join('  /  ')));
+    art.appendChild(el('h2', '', p.Title));
+    const img = safeUrl(driveFix(safeUrl(p['Cover Image URL'])));
+    if (img) { const i = document.createElement('img'); i.className = 'cover'; i.src = img; i.alt = ''; art.appendChild(i); }
+    art.appendChild(renderBody(p.Content));
+    root.replaceChildren(art);
+    setMeta(p.Title + ' | Eagle Pack', p['Meta Description'] || p.Summary);
+    window.scrollTo(0, 0);
+  }
+  if (!base) { msg('Articles are not connected yet.'); return; }
+  fetch(base + '?action=blog').then(r => r.json()).then(j => {
+    const posts = (j && j.ok && j.posts) || [];
+    let want = ''; try { want = new URLSearchParams(location.search).get('p') || ''; } catch (e) {}
+    if (want) {
+      const p = posts.find(x => keyOf(x) === want);
+      if (p) { post(p); return; }
+      msg('We could not find that article.'); const a = el('a', 'back', 'All articles'); a.href = './'; root.appendChild(a); return;
+    }
+    list(posts);
+  }).catch(() => msg('Articles could not be loaded right now. Please try again shortly.'));
+})();
