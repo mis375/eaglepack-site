@@ -75,6 +75,10 @@
       e.preventDefault();
       if ($('.hp input', form) && $('.hp input', form).value) return;
       if (!form.checkValidity()) { form.reportValidity(); say('Please fill the required fields.', true); return; }
+      const f = form.elements;
+      if (f.name && f.name.value.trim().length < 3) { say('Please enter your full name (at least 3 characters).', true); f.name.focus(); return; }
+      if (f.phone) { let ph = f.phone.value.replace(/[\s\-()]/g, '').replace(/^(\+91|0091|91|0)(?=\d{10}$)/, ''); if (!/^[6-9]\d{9}$/.test(ph)) { say('Please enter a valid 10-digit mobile number.', true); f.phone.focus(); return; } }
+      if (f.email && !/^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test(f.email.value.trim())) { say('Please enter a valid email address.', true); f.email.focus(); return; }
       const url = kind === 'careers' ? CFG.CAREERS_URL : CFG.QUOTE_URL;
       if (!url) { say('This form is not connected yet, so nothing was submitted. Please call or email us in the meantime.', true); return; }
       const d = Object.fromEntries(new FormData(form).entries());
