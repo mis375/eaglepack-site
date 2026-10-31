@@ -9,6 +9,9 @@ Site: https://eaglepack.in  |  Data sheet: "Eaglepack Website Data Sheet" (Googl
 - Facility and Quality section (verified facts only)
 - Form extras (file attachment, marketing consent), SEO, analytics and central enquiry tracking
 
+## v1.3 - 31 Oct 2026
+- Privacy Policy page added at /privacy-policy/ (for the Isha WhatsApp assistant); data deletion instructions at /privacy-policy/#data-deletion
+
 ## v1.2 - 29 Oct 2026
 - Real Google reviews replace the sample testimonials; "Read all reviews on Google" opens the Eagle Pack listing reviews
 
