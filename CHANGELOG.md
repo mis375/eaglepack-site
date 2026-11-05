@@ -9,6 +9,10 @@ Site: https://eaglepack.in  |  Data sheet: "Eaglepack Website Data Sheet" (Googl
 - Facility and Quality section (verified facts only)
 - Form extras (file attachment, marketing consent), SEO, analytics and central enquiry tracking
 
+## v1.4 - 5 Nov 2026
+- Diwali theme: greeting bar with string lights and diyas, soft lights and fireworks on the Home hero, soft lights on inner page headers, holiday notice (offices closed 8 to 11 Nov) in the bar and above enquiry forms
+- Theme switches itself off after 15 Nov 2026 (assets/festive.js, assets/festive.css)
+
 ## v1.3 - 31 Oct 2026
 - Privacy Policy page added at /privacy-policy/ (for the Isha WhatsApp assistant); data deletion instructions at /privacy-policy/#data-deletion
 

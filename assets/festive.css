@@ -1,0 +1,42 @@
+/* Diwali theme: shown only between the dates set in festive.js */
+body.fest{--fest-h:38px;--gold:#e9c46a}
+body.fest .site-header{top:var(--fest-h)}
+body.fest main{padding-top:var(--fest-h)}
+body.fest .drawer{top:calc(var(--head-h-s) + var(--fest-h))}
+.fest-bar{position:fixed;inset:0 0 auto 0;z-index:60;height:38px;background:#07141f;color:#f4e7c3;display:flex;align-items:center;justify-content:center;gap:14px;padding:0 44px;font:600 12.5px/1 var(--font);letter-spacing:.02em;border-bottom:1px solid rgba(233,196,106,.28)}
+.fest-bar .msg{display:flex;align-items:center;gap:10px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fest-bar .sep{width:1px;height:14px;background:rgba(233,196,106,.45)}
+.fest-bar .hol{color:#fff;font-weight:700}
+.fest-bar .x{position:absolute;right:10px;top:50%;transform:translateY(-50%);width:26px;height:26px;border:0;background:transparent;color:#f4e7c3;opacity:.7;cursor:pointer;font-size:18px;line-height:1;border-radius:50%}
+.fest-bar .x:hover{opacity:1;background:rgba(255,255,255,.08)}
+.fest-lights{position:absolute;left:0;right:0;bottom:-7px;height:8px;pointer-events:none}
+.fest-lights i{position:absolute;top:0;width:5px;height:5px;border-radius:50%;background:var(--c,#e9c46a);box-shadow:0 0 8px 2px var(--c,#e9c46a);opacity:.25;animation:ftw 3.2s ease-in-out infinite}
+@keyframes ftw{0%,100%{opacity:.22;transform:scale(.8)}50%{opacity:.95;transform:scale(1.1)}}
+.fest-bar .g-short{display:none}
+.fest-diya{width:22px;height:17px;flex:none;overflow:visible}
+.fest-diya .bowl{fill:#e9c46a}
+.fest-diya .base{fill:#b8893a}
+.fest-diya .fl{fill:#ffd978;transform-box:fill-box;transform-origin:50% 100%;animation:ffl 1.9s ease-in-out infinite;filter:drop-shadow(0 0 3px rgba(255,200,90,.9))}
+@keyframes ffl{0%,100%{transform:scale(1,1) skewX(0)}30%{transform:scale(.92,1.08) skewX(-4deg)}60%{transform:scale(1.04,.94) skewX(3deg)}}
+.fest-cv{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
+body.fest .hero-copy{position:relative;z-index:2}
+body.fest .page-hero>.container{position:relative;z-index:2}
+.fest-diyas{position:absolute;right:max(24px,4vw);bottom:34px;z-index:2;display:flex;align-items:flex-end;gap:16px;pointer-events:none}
+.fest-diyas .fest-diya{width:46px;height:36px}
+.fest-diyas .fest-diya:nth-child(2){width:58px;height:45px}
+.fest-diyas .fest-diya:nth-child(2) .fl{animation-delay:-.7s}
+.fest-diyas .fest-diya:nth-child(3) .fl{animation-delay:-1.3s}
+.fest-note{margin:0 0 18px;padding:12px 16px;border:1px solid #e3d3a4;background:#fbf6e6;color:#5b4a1c;border-radius:10px;font-size:14px;line-height:1.5;display:flex;gap:10px;align-items:flex-start}
+.fest-note b{color:#3d3112}
+@media (max-width:760px){
+ body.fest{--fest-h:34px}
+ .fest-bar{height:34px;font-size:11px;padding:0 36px;gap:8px}
+ .fest-bar .d2{display:none}
+ .fest-bar .msg{gap:6px}
+ .fest-diyas{display:none}
+ .fest-bar .g-long{display:none}
+ .fest-bar .g-short{display:inline}
+}
+@media (min-width:761px){body.fest .hero-video-sec{min-height:calc(100vh - var(--fest-h))}}
+@media (prefers-reduced-motion:reduce){.fest-lights i,.fest-diya .fl{animation:none}.fest-lights i{opacity:.6}}
+body.fest .hero-video-sec .shade::after{content:"";position:absolute;inset:0;background:rgba(5,14,24,.34)}
