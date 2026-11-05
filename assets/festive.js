@@ -90,8 +90,10 @@
       }
     }
     var pending = [], stars = [];
+    // Rockets never climb above this line, so the burst stays clear of the fixed header.
+    function topLimit() { return (small ? 76 : 96) + (small ? 90 : 150); }
     function launch(x, delay) {
-      rockets.push({ x: x, y: H * (.82 + Math.random() * .08), tx: x + (Math.random() - .5) * 50, ty: H * (.12 + Math.random() * .3), t: -(delay || 0), d: .8 + Math.random() * .35 });
+      rockets.push({ x: x, y: Math.max(H * .8, topLimit() + 220) + Math.random() * 30, tx: x + (Math.random() - .5) * 50, ty: topLimit() + Math.random() * Math.min(H * .3, 200), t: -(delay || 0), d: .8 + Math.random() * .35 });
     }
     function volley() {
       var n = 1 + ((Math.random() * 4) | 0), lo = small ? .12 : .46, hi = small ? .88 : .94, seg = (hi - lo) / n, order = [];
@@ -115,9 +117,12 @@
     }
     function drawStars(t) {
       for (var i = 0; i < stars.length; i++) {
-        var q = stars[i], tw = Math.max(0, Math.sin(t * q.sp + q.ph)); if (tw < .15) continue;
-        var L = q.r * (.5 + tw); ctx.globalAlpha = .75 * tw; ctx.strokeStyle = '#fff1c8'; ctx.lineWidth = 1;
-        ctx.beginPath(); ctx.moveTo(q.x - L, q.y); ctx.lineTo(q.x + L, q.y); ctx.moveTo(q.x, q.y - L); ctx.lineTo(q.x, q.y + L); ctx.stroke();
+        var q = stars[i], tw = Math.max(0, Math.sin(t * q.sp + q.ph)); if (tw < .12) continue;
+        var L = q.r * (.55 + tw * .7);
+        ctx.globalAlpha = .5 * tw; ctx.drawImage(spr, q.x - L * 1.8, q.y - L * 1.8, L * 3.6, L * 3.6);      // soft glow
+        ctx.globalAlpha = .95 * tw; ctx.fillStyle = '#fff4d6'; ctx.beginPath();                                // curved 4-point star
+        ctx.moveTo(q.x, q.y - L); ctx.quadraticCurveTo(q.x, q.y, q.x + L, q.y); ctx.quadraticCurveTo(q.x, q.y, q.x, q.y + L);
+        ctx.quadraticCurveTo(q.x, q.y, q.x - L, q.y); ctx.quadraticCurveTo(q.x, q.y, q.x, q.y - L); ctx.fill();
       }
       ctx.globalAlpha = 1;
     }
@@ -161,7 +166,7 @@
     function go() { if (on || reduce) return; on = true; last = performance.now(); raf = requestAnimationFrame(frame); }
     function stop() { on = false; cancelAnimationFrame(raf); }
     size();
-    if (fireworks) for (var si = 0; si < (small ? 6 : 12); si++) stars.push({ x: Math.random() * W, y: H * (.08 + Math.random() * .6), r: 3 + Math.random() * 4, sp: .8 + Math.random() * 1.4, ph: Math.random() * 6.28 });
+    if (fireworks) for (var si = 0; si < (small ? 6 : 12); si++) stars.push({ x: Math.random() * W, y: (small ? 100 : 130) + Math.random() * H * .6, r: 4 + Math.random() * 4, sp: .8 + Math.random() * 1.4, ph: Math.random() * 6.28 });
     if (reduce) { ctx.globalCompositeOperation = 'lighter'; drawBokeh(0, 0); return; }
     if ('IntersectionObserver' in window) {
       new IntersectionObserver(function (en) { en[0].isIntersecting && !document.hidden ? go() : stop(); }, { threshold: 0 }).observe(sec);
