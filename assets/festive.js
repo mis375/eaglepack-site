@@ -8,6 +8,20 @@
   if (!force && now >= END) return;
   try { if (!force && sessionStorage.getItem('festOff') === '1') return; } catch (e) {}
   var showNotice = force || now < NOTICE_END;
+  // Today's date in India (IST), so the day changes at midnight IST for every visitor.
+  var dm = location.search.match(/[?&]date=(\d{4}-\d{2}-\d{2})/);
+  var today = dm && force ? dm[1] : new Date(now + 5.5 * 3600 * 1000).toISOString().slice(0, 10);
+  if (dm && force) showNotice = Date.parse(today + 'T00:00:00+05:30') < NOTICE_END;
+  // Festival of the day: [long greeting, short greeting for phones]. Other days use the default Diwali greeting.
+  var DAYS = {
+    '2026-11-06': ['Happy Dhanteras from Team Eagle Pack. Wishing you prosperity and good health', 'Happy Dhanteras'],
+    '2026-11-07': ['Happy Choti Diwali (Naraka Chaturdashi) from Team Eagle Pack', 'Happy Choti Diwali'],
+    '2026-11-08': ['Happy Diwali from Team Eagle Pack. Wishing you light, joy and prosperity', 'Happy Diwali'],
+    '2026-11-10': ['Happy Govardhan Puja from Team Eagle Pack', 'Happy Govardhan Puja'],
+    '2026-11-11': ['Happy Bhai Dooj from Team Eagle Pack', 'Happy Bhai Dooj']
+  };
+  var day = DAYS[today] || ['Wishing you a bright and joyful Diwali. Team Eagle Pack', 'Happy Diwali'];
+  var boost = today === '2026-11-08';   // main Diwali day: more fireworks
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   var diya = '<svg class="fest-diya" viewBox="0 0 40 32" aria-hidden="true"><path class="fl" d="M20 1C23.5 7 25.5 10.5 23.5 14C22.4 16 17.6 16 16.5 14C14.5 10.5 16.5 7 20 1Z"/><path class="bowl" d="M2 17H38C38 25.5 30.5 30 20 30C9.5 30 2 25.5 2 17Z"/><rect class="base" x="13" y="29" width="14" height="2.4" rx="1.2"/></svg>';
@@ -17,7 +31,7 @@
     var b = document.createElement('div');
     b.className = 'fest-bar' + (showNotice ? '' : ' nohol');
     b.setAttribute('role', 'region'); b.setAttribute('aria-label', 'Diwali greeting');
-    b.innerHTML = diya + '<div class="msg"><span class="greet"><span class="g-long">Wishing you a bright and joyful Diwali. Team Eagle Pack</span><span class="g-short">Happy Diwali</span></span>' +
+    b.innerHTML = diya + '<div class="msg"><span class="greet"><span class="g-long">' + day[0] + '</span><span class="g-short">' + day[1] + '</span></span>' +
       (showNotice ? '<span class="sep"></span><span class="hol">Offices closed 8 to 11 November</span>' : '') + '</div>' +
       '<span class="d2">' + diya + '</span><button class="x" type="button" aria-label="Close greeting">&times;</button><div class="fest-lights"></div>';
     document.body.insertBefore(b, document.body.firstChild);
@@ -101,7 +115,7 @@
       ctx.globalCompositeOperation = 'lighter';
       drawBokeh(ts / 1000, dt);
       if (fireworks) {
-        next -= dt * 1000; if (next <= 0) { launch(); next = 3200 + Math.random() * 2600; }
+        next -= dt * 1000; if (next <= 0) { launch(); next = boost ? 1500 + Math.random() * 1500 : 3200 + Math.random() * 2600; }
         for (var i = rockets.length - 1; i >= 0; i--) {
           var r = rockets[i]; r.t += dt / r.d; var e = 1 - Math.pow(1 - Math.min(r.t, 1), 2);
           var x = r.x + (r.tx - r.x) * e, y = r.y + (r.ty - r.y) * e;
