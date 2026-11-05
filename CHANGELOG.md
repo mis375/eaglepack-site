@@ -11,6 +11,7 @@ Site: https://eaglepack.in  |  Data sheet: "Eaglepack Website Data Sheet" (Googl
 
 ## v1.4 - 5 Nov 2026
 - Diwali theme: greeting bar with string lights and diyas, soft lights and fireworks on the Home hero, soft lights on inner page headers, holiday notice (offices closed 8 to 11 Nov) in the bar and above enquiry forms
+- Fireworks: 1 to 4 rockets at a time in random order and count, four burst styles (sphere, ring, double ring, golden willow); hanging lanterns and twinkling stars added on the Home hero
 - Day-wise greeting changes automatically (IST): 6 Nov Dhanteras, 7 Nov Choti Diwali, 8 Nov Diwali (more fireworks), 10 Nov Govardhan Puja, 11 Nov Bhai Dooj; other days show the general Diwali greeting. Preview: add ?festive=on&date=2026-11-07 to the address
 - Theme switches itself off after 15 Nov 2026 (assets/festive.js, assets/festive.css)
 

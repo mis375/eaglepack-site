@@ -40,3 +40,15 @@ body.fest .page-hero>.container{position:relative;z-index:2}
 @media (min-width:761px){body.fest .hero-video-sec{min-height:calc(100vh - var(--fest-h))}}
 @media (prefers-reduced-motion:reduce){.fest-lights i,.fest-diya .fl{animation:none}.fest-lights i{opacity:.6}}
 body.fest .hero-video-sec .shade::after{content:"";position:absolute;inset:0;background:rgba(5,14,24,.34)}
+
+.fest-lanterns{position:absolute;top:calc(var(--head-h) - 2px);right:0;left:0;z-index:2;pointer-events:none}
+.fest-lanterns span{position:absolute;top:0;display:block;transform-origin:50% 0;animation:fsw 5.5s ease-in-out infinite}
+.fest-lanterns .l1{right:max(70px,7vw);width:58px}
+.fest-lanterns .l2{right:calc(max(70px,7vw) + 92px);width:44px;animation-duration:6.5s;animation-delay:-2s}
+.fest-lanterns .l2 svg{margin-top:-18px}
+.fest-lantern{display:block;width:100%;height:auto;overflow:visible;filter:drop-shadow(0 0 12px rgba(255,190,80,.55))}
+.fest-lantern .lb{animation:flo 3.4s ease-in-out infinite}
+@keyframes fsw{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
+@keyframes flo{0%,100%{fill-opacity:.82}50%{fill-opacity:1}}
+@media (max-width:900px){.fest-lanterns{display:none}}
+@media (prefers-reduced-motion:reduce){.fest-lanterns span,.fest-lantern .lb{animation:none}}
