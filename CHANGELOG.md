@@ -9,6 +9,9 @@ Site: https://eaglepack.in  |  Data sheet: "Eaglepack Website Data Sheet" (Googl
 - Facility and Quality section (verified facts only)
 - Form extras (file attachment, marketing consent), SEO, analytics and central enquiry tracking
 
+## v1.6 - 12 Nov 2026
+- Faster loading: hero video compressed (2.0 MB to 0.8 MB webm, 1.4 MB to 0.7 MB mp4); video skipped on Data Saver or 2G connections; Manrope font loaded as one variable-weight file
+
 ## v1.5 - 12 Nov 2026
 - Diwali theme removed; site back to normal (theme code stays in git history, commit d04c264 onwards)
 
