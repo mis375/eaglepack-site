@@ -9,6 +9,9 @@ Site: https://eaglepack.in  |  Data sheet: "Eaglepack Website Data Sheet" (Googl
 - Facility and Quality section (verified facts only)
 - Form extras (file attachment, marketing consent), SEO, analytics and central enquiry tracking
 
+## v1.5 - 12 Nov 2026
+- Diwali theme removed; site back to normal (theme code stays in git history, commit d04c264 onwards)
+
 ## v1.4 - 5 Nov 2026
 - Diwali theme: greeting bar with string lights and diyas, soft lights and fireworks on the Home hero, soft lights on inner page headers, holiday notice (offices closed 8 to 11 Nov) in the bar and above enquiry forms
 - Fireworks: 1 to 4 rockets at a time in random order and count, four burst styles (sphere, ring, double ring, golden willow); hanging lanterns and twinkling stars added on the Home hero
